@@ -26,6 +26,9 @@
 
         <button type="submit">Update User</button>
     </form>
+    <center>
+        <button onclick="cancel()" id="alert-btn">Cancel</button>
+    </center>
 
     <script>
         async function loadUser(userId) {
@@ -42,6 +45,10 @@
             document.getElementById('email').value = user.email;
             document.getElementById('contact_number').value = user.contact_number;
             document.getElementById('account_type').value = user.account_type;
+        }
+
+        function cancel() {
+            window.location.href = "./dashboard.html";
         }
 
         document.getElementById('user-form').addEventListener('submit', async function(event) {
