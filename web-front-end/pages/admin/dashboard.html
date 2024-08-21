@@ -20,6 +20,9 @@
             <!-- Users will be loaded here -->
         </tbody>
     </table>
+    <center>
+        <button onclick="logout()">Logout</button>
+    </center>
 
     <script>
         async function loadUsers() {
@@ -46,6 +49,22 @@
                 };
                 actionsCell.appendChild(editButton);
             });
+        }
+
+        async function logout() {
+            const response = await fetch('http://127.0.0.1:4001/auth/logout',{
+                method: "POST",
+                credentials: "include"
+            });
+            const result = await response.json();
+
+            if (result.ok) {
+                alert("Logout succesfully");
+                window.location.href = "../index.html";
+                return
+            } else {
+                alert(result.message);
+            }
         }
 
         loadUsers();
