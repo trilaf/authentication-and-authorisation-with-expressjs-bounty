@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 
-<body>
+<body onload="loadUserProfile()">
     <h1>User Profile</h1>
     <form id="profile-form">
         <label for="username">Username:</label>
@@ -20,7 +20,16 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
         <br>
-        <button type="submit">Update Profile</button>
+        <button type="submit">Update Profile</button>        
+    </form>
+    <center>
+        <button onclick="logout()" id="alert-btn">Logout</button>
+    </center>
+    <form id="delete-user-form">
+        <label for="delete-username">Username:</label>
+        <input type="text" id="delete-username" name="delete-username" required>
+        <br>
+        <button type="submit" id="alert-btn">Delete User</button>
     </form>
 
     <script>
@@ -38,6 +47,46 @@
             document.getElementById('contact_number').value = user.contact_number;
             document.getElementById('email').value = user.email;
         }
+
+        async function logout(event) {
+            const response = await fetch('http://127.0.0.1:4001/auth/logout',{
+                method: "POST",
+                credentials: "include"
+            });
+            const result = await response.json();
+
+            if (result.ok) {
+                alert("Logout succesfully");
+                window.location.href = "./index.html";
+                return
+            } else {
+                alert(result.message);
+            }
+        }
+
+        document.getElementById("delete-user-form").addEventListener("submit", async function (event) {
+        	event.preventDefault();
+        	const username = document.getElementById("delete-username").value;
+        	const response = await fetch(`http://127.0.0.1:4001/auth/delete/user`, {
+        		method: "DELETE",
+        		headers: {
+        			"Content-Type": "application/json"
+        		},
+        		body: JSON.stringify({
+        			username
+        		}),
+                credentials: "include"
+        	});
+            const result = await response.json();
+
+            if (result.ok) {
+                alert(`${username} deleted succesfully`);
+                return
+            } else {
+                alert(result.message)
+            }
+        
+        });
 
         document.getElementById('profile-form').addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -61,7 +110,7 @@
             }
         });
 
-        loadUserProfile();
+        // loadUserProfile();
     </script>
 </body>
 
