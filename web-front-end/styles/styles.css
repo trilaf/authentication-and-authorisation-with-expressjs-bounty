@@ -90,10 +90,16 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    max-width: 400px;
+    margin-bottom: 10px;
 }
 
 button:hover {
     background-color: #0056b3;
+}
+
+#alert-btn {
+    background-color: #b30000;
 }
 
 
